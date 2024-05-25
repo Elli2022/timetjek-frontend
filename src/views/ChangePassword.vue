@@ -1,6 +1,18 @@
+<template>
+    <div>
+        <h1>Change Password</h1>
+        <form @submit.prevent="changePassword">
+            <input v-model="current_password" type="password" placeholder="Current Password" />
+            <input v-model="new_password" type="password" placeholder="New Password" />
+            <input v-model="new_password_confirmation" type="password" placeholder="Confirm New Password" />
+            <button type="submit">Change Password</button>
+        </form>
+    </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue';
-import axios from 'axios';
+import apiClient from '../axios';
 
 export default defineComponent({
     name: 'ChangePassword',
@@ -15,7 +27,7 @@ export default defineComponent({
         async changePassword() {
             try {
                 const token = localStorage.getItem('authToken'); // Hämta token från localStorage eller annan metod
-                const response = await axios.post('/api/change-password', {
+                const response = await apiClient.post('/change-password', {
                     current_password: this.current_password,
                     new_password: this.new_password,
                     new_password_confirmation: this.new_password_confirmation

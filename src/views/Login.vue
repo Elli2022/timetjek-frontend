@@ -2,7 +2,7 @@
     <div>
         <h1>Login</h1>
         <form @submit.prevent="login">
-            <input v-model="personnummer" placeholder="Personnummer" />
+            <input v-model="personnummer" type="text" placeholder="Personnummer" />
             <input v-model="password" type="password" placeholder="Password" />
             <button type="submit">Login</button>
         </form>
@@ -10,28 +10,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import axios from 'axios'
+import { defineComponent } from 'vue';
+import apiClient from '../axios';
 
 export default defineComponent({
+    name: 'Login',
     data() {
         return {
             personnummer: '',
             password: ''
-        }
+        };
     },
     methods: {
         async login() {
             try {
-                const response = await axios.post('/api/login', {
+                const response = await apiClient.post('/login', {
                     personnummer: this.personnummer,
                     password: this.password
-                })
-                console.log(response.data)
+                });
+                const token = response.data.access_token;
+                localStorage.setItem('authToken', token); // Spara token för framtida användning
+                alert('Login successful');
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                alert('Error logging in');
             }
         }
     }
-})
+});
 </script>

@@ -1,9 +1,11 @@
-// src/axios.ts
 import axios from 'axios';
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8001', 
-    withCredentials: true, 
+const apiClient = axios.create({
+    baseURL: 'http://localhost:8001/api', // Se till att din backend körs på denna URL och port
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
 });
 
-export default instance;
+export default apiClient;
